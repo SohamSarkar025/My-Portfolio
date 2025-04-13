@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Truth or Dare</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+      color: rgb(255, 255, 255);
+      background-color:brown;
+      background-size: cover;
+    }
+    h1 {
+        font-size: 48px;
+        color: #ffdd00;
+        text-shadow: 2px 2px 8px rgba(255, 105, 180, 0.8), 0 0 10px rgba(255, 255, 255, 0.6);
+        margin-bottom: 30px;
+        letter-spacing: 2px;
+        font-weight: bold;
+    }        
+    #wheel-container {
+      position: relative;
+      width: 200px;
+      height: 200px;
+      margin: 20px auto;
+    }
+    #wheel {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background-color:rgb(118, 23, 64);
+      background-size: cover;
+      border: 5px solid #141414;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+    #pointer-container {
+      position: absolute;
+      top: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+    }
+    #pointer {
+      width: 0;
+      height: 0;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-bottom: 20px solid rgb(255, 0, 0);
+    }
+    #middle-pointer {
+      width: 0;
+      height: 0;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-bottom: 30px solid rgb(0, 255, 217);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 20;
+      transition: transform 3s ease-in-out;
+    }
+    #name1, #name2 {
+      position: absolute;
+      font-size: 18px;
+      font-weight: bold;
+      color: white;
+    }
+    #name1 {
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    #name2 {
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    button {
+      margin: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #006a8d;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+    button:hover {
+      background-color: #013d43;
+      transform: scale(1.05);
+    }
+    button:active {
+      transform: scale(0.95);
+    }
+    input, select {
+      padding: 10px;
+      font-size: 16px;
+      border: 2px solid #ccc;
+      border-radius: 5px;
+      margin: 10px;
+      outline: none;
+      transition: all 0.3s ease;
+      width: 200px;
+      background-color: #fff;
+    }
+    input:focus, select:focus {
+      border-color: #008CBA;
+      box-shadow: 0 0 8px rgba(0, 140, 186, 0.6);
+    }
+    input::placeholder {
+      color: #aaa;
+      font-style: italic;
+    }
+    #question {
+        margin-top: 20px;
+        padding: 15px 20px;
+        border-radius: 15px;
+        font-size: 20px;
+        font-weight: bold;
+        font-family: 'Comic Sans MS', cursive, sans-serif;
+        color: #e5e4e4;
+        display: inline-block;
+        max-width: 80%;
+        animation: fadeIn 0.5s ease-in-out;
+        opacity: 1;
+      }
+      
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: scale(0.95);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }      
+      #question {
+        transition: opacity 0.5s ease-in-out;
+        opacity: 1;
+      }
+      .hidden {
+        opacity: 0;
+      }
+      footer {
+        margin-top: 10px;
+        padding: 15px 0;
+        background: rgba(0, 0, 0, 0.4);
+        position:relative;
+        color: #fff;
+        font-size: 16px;
+        text-align: center;
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(5px);
+      }
+      
+      footer p {
+        margin: 0;
+      }
+      
+      
+    /* Mobile responsiveness */
+@media screen and (max-width: 480px) {
+    #wheel-container {
+      width: 150px;
+      height: 150px;
+    }
+  
+    #wheel {
+      width: 150px;
+      height: 150px;
+    }
+  
+    #name1, #name2 {
+      font-size: 14px;
+    }
+  
+    input, select, button {
+      width: 90%;
+      max-width: 250px;
+      font-size: 14px;
+    }
+  
+    h1 {
+      font-size: 20px;
+    }
+  
+    h2, h3 {
+      font-size: 16px;
+    }
+  }
+  
+  </style>
+</head>
+<body>
+  <h1>Truth or Dare</h1>
+
+  <div id="nameInput">
+    <input type="text" id="name1Input" placeholder="Enter Name 1">
+    <select id="gender1">
+      <option value="male">Male</option>
+      <option value="female">Female</option>
+    </select><br><br>
+
+    <input type="text" id="name2Input" placeholder="Enter Name 2">
+    <select id="gender2">
+      <option value="male">Male</option>
+      <option value="female">Female</option>
+    </select><br><br>
+  
+    <button onclick="startGame()">Start Game</button>
+  </div>
+
+  <div id="gameArea" style="display:none;">
+    <div id="pointer-container">
+      <div id="pointer"></div>
+    </div>
+    <div id="wheel-container">
+      <div id="wheel"></div>
+      <div id="name1"></div>
+      <div id="name2"></div>
+      <div id="middle-pointer"></div>
+    </div>
+    <button id="spinButton" onclick="spinWheel()">Spin</button>
+    <h2 id="selectedName"></h2>
+
+    <div id="choiceArea" style="display:none;">
+      <button onclick="ask('truth')">Truth</button>
+      <button onclick="ask('dare')">Dare</button>
+    </div>
+
+    <h3 id="question"></h3>
+    <div id="nextBtnContainer" style="display:none;">
+      <button onclick="nextGame()">Next</button>
+    </div>
+  </div>
+  <!-- <footer>
+    <p>Made with ❤️ by Soham Sarkar</p>
+  </footer> -->
+  
+
+  <script>
+    let players = [];
+    let selectedIndex = 0;
+    let lastRotation = 0;
+
+    const truths = {
+      male: [
+        "What’s a guy secret you’ve never told?",
+        "Have you ever cried during a movie?",
+        "What's your guilty pleasure?"
+      ],
+      female: [
+        "What’s your most embarrassing moment?",
+        "Have you ever had a crush on a friend’s boyfriend?",
+        "What's a secret you never told your best friend?"
+      ]
+    };
+
+    const dares = {
+      male: [
+        "Do 20 pushups.",
+        "Imitate your favorite superhero.",
+        "Speak like a pirate for one minute."
+      ],
+      female: [
+        "Speak like a baby for 1 minute.",
+        "Do a catwalk across the room.",
+        "Show your asshole",
+        "Show your tities",
+        "make a moaning sound",
+        "slap your pussy",
+        "twerk for 30 sec"
+      ]
+    };
+
+    function startGame() {
+      let n1 = document.getElementById('name1Input').value.trim();
+      let n2 = document.getElementById('name2Input').value.trim();
+      let g1 = document.getElementById('gender1').value;
+      let g2 = document.getElementById('gender2').value;
+
+      if (n1 === '' || n2 === '') {
+        alert("Please enter both names.");
+        return;
+      }
+
+      players = [
+        { name: n1, gender: g1 },
+        { name: n2, gender: g2 }
+      ];
+
+      document.getElementById('name1').innerText = n1;
+      document.getElementById('name2').innerText = n2;
+      document.getElementById('nameInput').style.display = 'none';
+      document.getElementById('gameArea').style.display = 'block';
+    }
+
+    function spinWheel() {
+        const middlePointer = document.getElementById('middle-pointer');
+        selectedIndex = Math.floor(Math.random() * 2);
+        let angle = selectedIndex === 0 ? 0 : 180;
+        let rotations = Math.floor(Math.random() * 5 + 5);
+        let totalRotation = 360 * rotations + angle;
+        lastRotation = totalRotation % 360;
+      
+        document.getElementById('question').classList.add('hidden'); // Smooth fade out
+      
+        middlePointer.style.transform = `translate(-50%, -50%) rotate(${totalRotation}deg)`;
+      
+        setTimeout(() => {
+          document.getElementById('selectedName').innerText = `${players[selectedIndex].name}'s Turn`;
+          document.getElementById('choiceArea').style.display = 'block';
+          document.getElementById('question').innerText = '';
+          document.getElementById('question').classList.remove('hidden'); // Smooth fade in
+          document.getElementById('nextBtnContainer').style.display = 'block';
+        }, 3100);
+      }
+      
+
+    function ask(type) {
+      const gender = players[selectedIndex].gender;
+      const questionList = type === 'truth' ? truths[gender] : dares[gender];
+      const question = questionList[Math.floor(Math.random() * questionList.length)];
+      document.getElementById('question').innerText = question;
+    }
+
+    function nextGame() {
+      document.getElementById('selectedName').innerText = '';
+      document.getElementById('question').innerText = '';
+      document.getElementById('choiceArea').style.display = 'none';
+      document.getElementById('nextBtnContainer').style.display = 'none';
+      const pointer = document.getElementById('middle-pointer');
+      pointer.style.transition = 'none';
+      pointer.style.transform = `translate(-50%, -50%) rotate(${lastRotation}deg)`;
+      setTimeout(() => {
+        pointer.style.transition = 'transform 3s ease-in-out';
+      }, 50);
+    }
+  </script>
+</body>
+</html>
