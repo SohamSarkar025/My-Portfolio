@@ -1,64 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Truth or Dare</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Segoe UI', sans-serif;
       text-align: center;
       padding: 20px;
-      color: rgb(255, 255, 255);
-      background-color:brown;
+      margin: 0;
+      color: #fff;
+      background-color: brown;
       background-size: cover;
     }
+
     h1 {
-        font-size: 48px;
-        color: #ffdd00;
-        text-shadow: 2px 2px 8px rgba(255, 105, 180, 0.8), 0 0 10px rgba(255, 255, 255, 0.6);
-        margin-bottom: 30px;
-        letter-spacing: 2px;
-        font-weight: bold;
-    }        
-    #wheel-container {
-      position: relative;
-      width: 200px;
-      height: 200px;
-      margin: 20px auto;
+      font-size: 2rem;
+      color: #ffdd00;
+      text-shadow: 2px 2px 8px rgba(255, 105, 180, 0.8), 0 0 10px rgba(255, 255, 255, 0.6);
+      margin-bottom: 20px;
     }
+
+    input, select {
+      width: 100%;
+      max-width: 400px;
+      padding: 12px;
+      margin: 10px auto;
+      display: block;
+      font-size: 16px;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      transition: border 0.3s, box-shadow 0.3s;
+    }
+
+    input:focus, select:focus {
+      border-color: #00bfff;
+      box-shadow: 0 0 6px rgba(0, 191, 255, 0.6);
+      outline: none;
+    }
+
+    button {
+      width: 100%;
+      max-width: 250px;
+      margin: 10px auto;
+      padding: 14px;
+      font-size: 16px;
+      border: none;
+      border-radius: 10px;
+      background-color: #006a8d;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      display: block;
+    }
+
+    button:hover {
+      background-color: #014859;
+      transform: scale(1.05);
+    }
+
+    button:active {
+      transform: scale(0.95);
+    }
+
+    #wheel-container {
+      width: 160px;
+      height: 160px;
+      margin: 20px auto;
+      position: relative;
+    }
+
     #wheel {
-      width: 200px;
-      height: 200px;
+      width: 100%;
+      height: 100%;
       border-radius: 50%;
-      position: absolute;
-      top: 0;
-      left: 0;
-      background-color:rgb(118, 23, 64);
-      background-size: cover;
-      border: 5px solid #141414;
+      background-color: rgb(118, 23, 64);
+      border: 4px solid #141414;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     }
+
     #pointer-container {
       position: absolute;
-      top: -30px;
+      top: -25px;
       left: 50%;
       transform: translateX(-50%);
       z-index: 10;
     }
+
     #pointer {
       width: 0;
       height: 0;
       border-left: 10px solid transparent;
       border-right: 10px solid transparent;
-      border-bottom: 20px solid rgb(255, 0, 0);
+      border-bottom: 20px solid red;
     }
+
     #middle-pointer {
       width: 0;
       height: 0;
       border-left: 10px solid transparent;
       border-right: 10px solid transparent;
-      border-bottom: 30px solid rgb(0, 255, 217);
+      border-bottom: 25px solid cyan;
       position: absolute;
       top: 50%;
       left: 50%;
@@ -66,158 +113,70 @@
       z-index: 20;
       transition: transform 3s ease-in-out;
     }
+
     #name1, #name2 {
       position: absolute;
-      font-size: 18px;
+      font-size: 14px;
       font-weight: bold;
       color: white;
     }
+
     #name1 {
-      top: 10px;
+      top: 5px;
       left: 50%;
       transform: translateX(-50%);
     }
+
     #name2 {
-      bottom: 10px;
+      bottom: 5px;
       left: 50%;
       transform: translateX(-50%);
     }
-    button {
-      margin: 10px;
-      padding: 10px 20px;
-      font-size: 16px;
-      background-color: #006a8d;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.3s, transform 0.2s;
-    }
-    button:hover {
-      background-color: #013d43;
-      transform: scale(1.05);
-    }
-    button:active {
-      transform: scale(0.95);
-    }
-    input, select {
-      padding: 10px;
-      font-size: 16px;
-      border: 2px solid #ccc;
-      border-radius: 5px;
-      margin: 10px;
-      outline: none;
-      transition: all 0.3s ease;
-      width: 200px;
-      background-color: #fff;
-    }
-    input:focus, select:focus {
-      border-color: #008CBA;
-      box-shadow: 0 0 8px rgba(0, 140, 186, 0.6);
-    }
-    input::placeholder {
-      color: #aaa;
-      font-style: italic;
-    }
+
     #question {
-        margin-top: 20px;
-        padding: 15px 20px;
-        border-radius: 15px;
-        font-size: 20px;
-        font-weight: bold;
-        font-family: 'Comic Sans MS', cursive, sans-serif;
-        color: #e5e4e4;
-        display: inline-block;
-        max-width: 80%;
-        animation: fadeIn 0.5s ease-in-out;
-        opacity: 1;
-      }
-      
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: scale(0.95);
-        }
-        to {
-          opacity: 1;
-          transform: scale(1);
-        }
-      }      
-      #question {
-        transition: opacity 0.5s ease-in-out;
-        opacity: 1;
-      }
-      .hidden {
-        opacity: 0;
-      }
-      footer {
-        margin-top: 10px;
-        padding: 15px 0;
-        background: rgba(0, 0, 0, 0.4);
-        position:relative;
-        color: #fff;
-        font-size: 16px;
-        text-align: center;
-        border-top: 1px solid rgba(255, 255, 255, 0.2);
-        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
-        backdrop-filter: blur(5px);
-      }
-      
-      footer p {
-        margin: 0;
-      }
-      
-      
-    /* Mobile responsiveness */
-@media screen and (max-width: 480px) {
-    #wheel-container {
-      width: 150px;
-      height: 150px;
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 10px;
+      font-size: 18px;
+      font-weight: 600;
+      background-color: rgba(0, 0, 0, 0.4);
+      max-width: 90%;
+      margin-left: auto;
+      margin-right: auto;
+      opacity: 0;
+      transform: scale(0.9);
+      transition: opacity 0.6s ease, transform 0.5s ease;
     }
-  
-    #wheel {
-      width: 150px;
-      height: 150px;
+
+    #question.show {
+      opacity: 1;
+      transform: scale(1);
     }
-  
-    #name1, #name2 {
+
+    footer {
+      margin-top: 20px;
       font-size: 14px;
+      color: #ddd;
+      opacity: 0.7;
     }
-  
-    input, select, button {
-      width: 90%;
-      max-width: 250px;
-      font-size: 14px;
-    }
-  
-    h1 {
-      font-size: 20px;
-    }
-  
-    h2, h3 {
-      font-size: 16px;
-    }
-  }
-  
   </style>
 </head>
 <body>
   <h1>Truth or Dare</h1>
 
   <div id="nameInput">
-    <input type="text" id="name1Input" placeholder="Enter Name 1">
+    <input type="text" id="name1Input" placeholder="Enter Name 1" />
     <select id="gender1">
       <option value="male">Male</option>
       <option value="female">Female</option>
-    </select><br><br>
+    </select>
 
-    <input type="text" id="name2Input" placeholder="Enter Name 2">
+    <input type="text" id="name2Input" placeholder="Enter Name 2" />
     <select id="gender2">
       <option value="male">Male</option>
       <option value="female">Female</option>
-    </select><br><br>
-  
+    </select>
+
     <button onclick="startGame()">Start Game</button>
   </div>
 
@@ -231,6 +190,7 @@
       <div id="name2"></div>
       <div id="middle-pointer"></div>
     </div>
+
     <button id="spinButton" onclick="spinWheel()">Spin</button>
     <h2 id="selectedName"></h2>
 
@@ -239,15 +199,14 @@
       <button onclick="ask('dare')">Dare</button>
     </div>
 
-    <h3 id="question"></h3>
+    <div id="question"></div>
+
     <div id="nextBtnContainer" style="display:none;">
       <button onclick="nextGame()">Next</button>
     </div>
   </div>
-  <!-- <footer>
-    <p>Made with ❤️ by Soham Sarkar</p>
-  </footer> -->
-  
+
+  <footer>Have fun and play responsibly! ❤️</footer>
 
   <script>
     let players = [];
@@ -256,31 +215,280 @@
 
     const truths = {
       male: [
-        "What’s a guy secret you’ve never told?",
-        "Have you ever cried during a movie?",
-        "What's your guilty pleasure?"
+      "Do you know your love language? If so, what is it?",
+      "Do you know your desire style?",
+      "What's one thing you struggle with in relationships?",
+      "What's the best thing you think you bring to relationships?",
+      "What first made you attracted to me?",
+      "What usually turns you on?",
+      "What's a seemingly nonsexual thing that turns you on?",
+      "Have you ever had sex with more than one person in a day?",
+      "What's the biggest age difference you've ever had with a partner?",
+      "What's the most embarrassing thing that’s happened to you during sex?",
+      "Have you ever cheated? (Bonus question for the brave: Did it turn you on?)",
+      "Have you ever turned down a sexual opportunity and regretted it?",
+      "Have you ever hooked up with someone you regret?",
+      "When did you learn what sex was? What’s the story?",
+      "Have you ever faked an orgasm?",
+      "Have you ever admitted to faking an orgasm?",
+      "Have you ever accidentally sent a sext to the wrong person?",
+      "How do you feel about shower sex? Love it, hate it, or super neutral?",
+      "What about pool/beach sex?",
+      "What's the sexiest song you've ever heard? What about it turns you on?",
+      "What's the sexiest movie or TV scene you've ever watched?",
+      "When are you the most horny?",
+      "Do you remember your sexual awakening? Tell me about it.",
+      "What's the most amount of times you've orgasmed in a day?",
+      "What's the most amount of times you've orgasmed in an hour?",
+      "If we opened up our relationship, who would be the first person you’d want to have sex with?",
+      "Who would be in your dream orgy?",
+      "Who would you invite if you were hosting a sex party? Celebrities and famous people included.",
+      "What do you remember most about the first time you ever had sex?",
+      "Who was the first person you ever had sex with?",
+      "Who is the weirdest person you’ve had a sex dream about?",
+      "Have you ever had a sex dream about me?",
+      "If you could have sex with one person from your past again, who would it be?",
+      "Would you ever want to watch me have sex with someone else?",
+      "What do you think about sex toys?",
+      "If you're open to them, what’s one sex toy you want me to try on you?",
+      "What’s a fantasy you’ve never told me about?",
+      "What memory from our sex life turns you on the most?",
+      "What would be your dream role-play scenario?",
+      "What do you think I’m best at in bed?",
+      "Have you ever gotten turned on at work (or while WFH)? What did you do about it?",
+      "Have you ever hooked up with a stranger or had a one-night stand?",
+      "Do you prefer using your tongue or fingers on me? Which do you like me to use on you?",
+      "How do you feel about swinging or partner swapping? Does the idea turn you on?",
+      "What's something I do that isn't sexual but turns you on?",
+      "Would you ever want to go to a sex club or sex party with me?",
+      "Where is the most random place you’ve ever masturbated?",
+      "How do you feel about mutual masturbation?",
+      "Have you ever had sex on a plane?",
+      "What’s #1 on your sexual bucket list right now?",
+      "Have you ever been caught having sex?",
+      "Have you ever accidentally walked in on anyone getting it on?",
+      "Have you ever had sex in public?",
+      "Do you ever watch porn? Tell me what type you usually gravitate toward.",
+      "What’s the kinkiest thought you’ve ever had about me?",
+      "What’s a sex act most people like that you think is overrated?",
+      "What sexual activity (or activities) do you think is underrated?",
+      "Have you ever fantasized about a teacher or authority figure? Who was it and why?",
+      "Do you know the last name of everyone you’ve had sex with? What about first?",
+      "Kiss on the first date: Yay or nay?",
+      "Sex on the first date: Yay or nay?",
+      "What is your favorite body part for me to suck on?",
+      "What's your favorite body part to be kissed?",
+      "Would you prefer to dominate me in bed or do you want me to dominate you in bed?",
+      "Do you like being nibbled on or lightly bitten? Where?",
+      "How do you feel about nipple play?",
+      "How do you feel about butt stuff?",
+      "What's your favorite sex toy to use on me?",
+      "What's your favorite sex toy to use together?",
+      "What's the kinkiest thing you've ever done?",
+      "What's the kinkiest thing you'd like to do?",
+      "What’s the hottest sex dream you’ve ever had?",
+      "Tell me one thing I could do that would make you immediately orgasm.",
+      "Which is your favorite kind of sex: soft, slow, and sweet or aggressive, fast, and feisty?",
+      "If I gave you a free pass to hook up with one celebrity, who would it be and why?",
+      "What item of clothing do you think I look sexiest in?",
+      "Describe my in-bed personality in three words.",
+      "If I were handcuffed to the bed, what would you do to me?",
+      "Would you ever want to be blindfolded?",
+      "If you were to create an original sex move, what would you call it?",
+      "What's something dirty you've always been too shy to say to me in bed?",
+      "What kind of dirty talk, if any, do you want to hear in bed?",
+      "If we could only have sex in one position for a month, what position would you pick?",
+      "Is there something you've seen in a steamy movie that you'd like to try?",
+      "What sex move of mine is your favorite? Give me all the dirty details about why you like it.",
+      "What kind of foreplay would you like to try the next time we are in bed?",
+      "Where do you think our most romantic kiss took place? Tell me everything you remember about it.",
+      "What do you remember about our first kiss?",
+      "When I am on top of you, what's your favorite part of me to watch?",
+      "How often do you masturbate? How often is it about me?",
+      "If you could go back and change anything about the first time we had sex, what would it be and why?",
+      "What’s your favorite text I’ve sent you when we’ve been sexting?",
+      "What is your least favorite sex position and why?",
+      "How do you feel about threesomes? Have you ever had one, and if not, would you ever have one?",
+      "What do you think the sexiest part of my body is?",
+      "What do you think the sexiest part of your body is?",
+      "Have you ever fantasized about anything sexual with someone of your same sex?",
+      "What’s the wildest place you’ve ever had sex?",
+      "What were you thinking when you first saw me naked?",
+      "Fuck, Marry, Kill: Missionary, doggy, and oral sex.",
+      "Tell me what I taste like.",
+      "Have you ever fallen asleep during sex?"
       ],
       female: [
-        "What’s your most embarrassing moment?",
-        "Have you ever had a crush on a friend’s boyfriend?",
-        "What's a secret you never told your best friend?"
+      "Sarre or One Piece",
+      "If you a chance to fuck in outdoor do u agree?",
+      "Do u wanna touch by my dick in public",
+      "Doggy or missionary",
+      "if u have to seduce me in 10s , what you will do",
+      "When thinking of me naked,is ur pussy wet?",
+      "if you have to choose shower fuck or balcony fuck,what will be ur choice",
+      "Sleeveless blouse or fully covered blouse",
+      "Ur weirdest desire with me in sex",
+      "do u anytime fantasies about anal",
+      "Do you know your love language? If so, what is it?",
+      "Do you know your desire style?",
+      "What's one thing you struggle with in relationships?",
+      "What's the best thing you think you bring to relationships?",
+      "What first made you attracted to me?",
+      "What usually turns you on?",
+      "What's a seemingly nonsexual thing that turns you on?",
+      "Have you ever had sex with more than one person in a day?",
+      "What's the biggest age difference you've ever had with a partner?",
+      "What's the most embarrassing thing that’s happened to you during sex?",
+      "Have you ever cheated? (Bonus question for the brave: Did it turn you on?)",
+      "Have you ever turned down a sexual opportunity and regretted it?",
+      "Have you ever hooked up with someone you regret?",
+      "When did you learn what sex was? What’s the story?",
+      "Have you ever faked an orgasm?",
+      "Have you ever admitted to faking an orgasm?",
+      "Have you ever accidentally sent a sext to the wrong person?",
+      "How do you feel about shower sex? Love it, hate it, or super neutral?",
+      "What about pool/beach sex?",
+      "What's the sexiest song you've ever heard? What about it turns you on?",
+      "What's the sexiest movie or TV scene you've ever watched?",
+      "When are you the most horny?",
+      "Do you remember your sexual awakening? Tell me about it.",
+      "What's the most amount of times you've orgasmed in a day?",
+      "What's the most amount of times you've orgasmed in an hour?",
+      "If we opened up our relationship, who would be the first person you’d want to have sex with?",
+      "Who would be in your dream orgy?",
+      "Who would you invite if you were hosting a sex party? Celebrities and famous people included.",
+      "What do you remember most about the first time you ever had sex?",
+      "Who was the first person you ever had sex with?",
+      "Who is the weirdest person you’ve had a sex dream about?",
+      "Have you ever had a sex dream about me?",
+      "If you could have sex with one person from your past again, who would it be?",
+      "Would you ever want to watch me have sex with someone else?",
+      "What do you think about sex toys?",
+      "If you're open to them, what’s one sex toy you want me to try on you?",
+      "What’s a fantasy you’ve never told me about?",
+      "What memory from our sex life turns you on the most?",
+      "What would be your dream role-play scenario?",
+      "What do you think I’m best at in bed?",
+      "Have you ever gotten turned on at work (or while WFH)? What did you do about it?",
+      "Have you ever hooked up with a stranger or had a one-night stand?",
+      "Do you prefer using your tongue or fingers on me? Which do you like me to use on you?",
+      "How do you feel about swinging or partner swapping? Does the idea turn you on?",
+      "What's something I do that isn't sexual but turns you on?",
+      "Would you ever want to go to a sex club or sex party with me?",
+      "Where is the most random place you’ve ever masturbated?",
+      "How do you feel about mutual masturbation?",
+      "Have you ever had sex on a plane?",
+      "What’s #1 on your sexual bucket list right now?",
+      "Have you ever been caught having sex?",
+      "Have you ever accidentally walked in on anyone getting it on?",
+      "Have you ever had sex in public?",
+      "Do you ever watch porn? Tell me what type you usually gravitate toward.",
+      "What’s the kinkiest thought you’ve ever had about me?",
+      "What’s a sex act most people like that you think is overrated?",
+      "What sexual activity (or activities) do you think is underrated?",
+      "Have you ever fantasized about a teacher or authority figure? Who was it and why?",
+      "Do you know the last name of everyone you’ve had sex with? What about first?",
+      "Kiss on the first date: Yay or nay?",
+      "Sex on the first date: Yay or nay?",
+      "What is your favorite body part for me to suck on?",
+      "What's your favorite body part to be kissed?",
+      "Would you prefer to dominate me in bed or do you want me to dominate you in bed?",
+      "Do you like being nibbled on or lightly bitten? Where?",
+      "How do you feel about nipple play?",
+      "How do you feel about butt stuff?",
+      "What's your favorite sex toy to use on me?",
+      "What's your favorite sex toy to use together?",
+      "What's the kinkiest thing you've ever done?",
+      "What's the kinkiest thing you'd like to do?",
+      "What’s the hottest sex dream you’ve ever had?",
+      "Tell me one thing I could do that would make you immediately orgasm.",
+      "Which is your favorite kind of sex: soft, slow, and sweet or aggressive, fast, and feisty?",
+      "If I gave you a free pass to hook up with one celebrity, who would it be and why?",
+      "What item of clothing do you think I look sexiest in?",
+      "Describe my in-bed personality in three words.",
+      "If I were handcuffed to the bed, what would you do to me?",
+      "Would you ever want to be blindfolded?",
+      "If you were to create an original sex move, what would you call it?",
+      "What's something dirty you've always been too shy to say to me in bed?",
+      "What kind of dirty talk, if any, do you want to hear in bed?",
+      "If we could only have sex in one position for a month, what position would you pick?",
+      "Is there something you've seen in a steamy movie that you'd like to try?",
+      "What sex move of mine is your favorite? Give me all the dirty details about why you like it.",
+      "What kind of foreplay would you like to try the next time we are in bed?",
+      "Where do you think our most romantic kiss took place? Tell me everything you remember about it.",
+      "What do you remember about our first kiss?",
+      "When I am on top of you, what's your favorite part of me to watch?",
+      "How often do you masturbate? How often is it about me?",
+      "If you could go back and change anything about the first time we had sex, what would it be and why?",
+      "What’s your favorite text I’ve sent you when we’ve been sexting?",
+      "What is your least favorite sex position and why?",
+      "How do you feel about threesomes? Have you ever had one, and if not, would you ever have one?",
+      "What do you think the sexiest part of my body is?",
+      "What do you think the sexiest part of your body is?",
+      "Have you ever fantasized about anything sexual with someone of your same sex?",
+      "What’s the wildest place you’ve ever had sex?",
+      "What were you thinking when you first saw me naked?",
+      "Fuck, Marry, Kill: Missionary, doggy, and oral sex.",
+      "Tell me what I taste like.",
+      "Have you ever fallen asleep during sex?"
       ]
     };
 
     const dares = {
       male: [
-        "Do 20 pushups.",
-        "Imitate your favorite superhero.",
-        "Speak like a pirate for one minute."
+      "Try to juggle 3 things of the group's choice",
+      "Show the most embarrassing photo on your phone",
+      "Show the last five people you texted and what the messages said",
+      "Let the rest of the group DM someone from your Instagram account",
+      "Do 100 squats",
+      "Let the group look in your Instagram DMs",
+      "Show us your screen time report",
+      "Keep three ice cubes in your mouth until they melt",
+      "Yell out the first word that comes to your mind",
+      "Keep your eyes closed until it's your go again",
+      "Empty out your wallet/purse and show everyone what's inside",
+      "Pretend to be the person to your right for 10 minutes",
+      "Eat a snack without using your hands",
+      "Whisper a secret to the person on your left",
+      "Say two honest things about everyone else in the group",
+      "Tell the saddest story you know",
+      "Hold your drink with two hands for the rest of the evening",
+      "Put on make-up without a mirror and leave it like that for the rest of the game",
+      "Neck the drink (responsibly) of the person on your right",
+      "Say yes to everything for the next 1 minute",
+      "Show your favourite picture of yourself",
+      "Post a TikTok draft",
+      "Make a rap about your favourite book",
+      "Do 50 push ups",
+      "Reveal what you think everyone in the group will be up to in five years time",
+      "Give everyone in the room a backhanded compliment",
+      "Let the group style your hair and leave it that way for the entire game",
+      "Only talk in whispers for the next 10 minutes",
+      "Say a secret about someone in the room but not reveal their name"
       ],
       female: [
-        "Speak like a baby for 1 minute.",
+        "Pretend we're strangers at bar and you just spotted me,try to pick me up",
         "Do a catwalk across the room.",
-        "Show your asshole",
-        "Show your tities",
-        "make a moaning sound",
-        "slap your pussy",
-        "twerk for 30 sec"
+        "Roleplay you are a teacher and i am student",
+        "I will pick up a song u have to dance naked on it",
+        "show me your pussy in standing position",
+        "lift ur hand up and jiggle your boobs",
+        "Go to bathroom tight your shirt and show your curves",
+        "bend down and show ur asshole",
+        "spit in ur nipple",
+        "make a nude selfie in bathroom and send me",
+        "slap your boobs hard and pinch your nipples",
+        "Put the camera down and show ur boobies from upper",
+        "Twerk for 30 sec ",
+        "finger ur asshole for 5 sec",
+        "finger ur pussy for 1min roughly",
+        "slap ur ass for 2 times",
+        "make a moaning sound for 5 sec",
+        "show me a hot picture of you in bra",
+        "take off ur bra and cover ur boob with hand with a horny expression",
+        "doggy for me 1 min",
+        "you have to listen what i would say",
+        "i will give you 3 model pic u have to copy the pose",
       ]
     };
 
@@ -290,7 +498,7 @@
       let g1 = document.getElementById('gender1').value;
       let g2 = document.getElementById('gender2').value;
 
-      if (n1 === '' || n2 === '') {
+      if (!n1 || !n2) {
         alert("Please enter both names.");
         return;
       }
@@ -307,40 +515,56 @@
     }
 
     function spinWheel() {
-        const middlePointer = document.getElementById('middle-pointer');
-        selectedIndex = Math.floor(Math.random() * 2);
-        let angle = selectedIndex === 0 ? 0 : 180;
-        let rotations = Math.floor(Math.random() * 5 + 5);
-        let totalRotation = 360 * rotations + angle;
-        lastRotation = totalRotation % 360;
-      
-        document.getElementById('question').classList.add('hidden'); // Smooth fade out
-      
-        middlePointer.style.transform = `translate(-50%, -50%) rotate(${totalRotation}deg)`;
-      
-        setTimeout(() => {
-          document.getElementById('selectedName').innerText = `${players[selectedIndex].name}'s Turn`;
-          document.getElementById('choiceArea').style.display = 'block';
-          document.getElementById('question').innerText = '';
-          document.getElementById('question').classList.remove('hidden'); // Smooth fade in
-          document.getElementById('nextBtnContainer').style.display = 'block';
-        }, 3100);
-      }
-      
+      const middlePointer = document.getElementById('middle-pointer');
+      const questionBox = document.getElementById('question');
+      const selectedName = document.getElementById('selectedName');
+      const choiceArea = document.getElementById('choiceArea');
+      const nextBtnContainer = document.getElementById('nextBtnContainer');
+
+      selectedName.innerText = '';
+      choiceArea.style.display = 'none';
+      nextBtnContainer.style.display = 'none';
+      questionBox.innerText = '';
+      questionBox.classList.remove('show');
+
+      selectedIndex = Math.floor(Math.random() * 2);
+      let angle = selectedIndex === 0 ? 0 : 180;
+      let rotations = Math.floor(Math.random() * 5 + 5);
+      let totalRotation = 360 * rotations + angle;
+      lastRotation = totalRotation % 360;
+
+      middlePointer.style.transform = `translate(-50%, -50%) rotate(${totalRotation}deg)`;
+
+      setTimeout(() => {
+        selectedName.innerText = `${players[selectedIndex].name}'s Turn`;
+        choiceArea.style.display = 'block';
+        nextBtnContainer.style.display = 'block';
+      }, 3100);
+    }
 
     function ask(type) {
       const gender = players[selectedIndex].gender;
       const questionList = type === 'truth' ? truths[gender] : dares[gender];
       const question = questionList[Math.floor(Math.random() * questionList.length)];
-      document.getElementById('question').innerText = question;
+
+      const questionBox = document.getElementById('question');
+      questionBox.classList.remove('show');
+      setTimeout(() => {
+        questionBox.innerText = question;
+        questionBox.classList.add('show');
+      }, 100);
     }
 
     function nextGame() {
+      const pointer = document.getElementById('middle-pointer');
+      const questionBox = document.getElementById('question');
+
       document.getElementById('selectedName').innerText = '';
-      document.getElementById('question').innerText = '';
+      questionBox.innerText = '';
+      questionBox.classList.remove('show');
       document.getElementById('choiceArea').style.display = 'none';
       document.getElementById('nextBtnContainer').style.display = 'none';
-      const pointer = document.getElementById('middle-pointer');
+
       pointer.style.transition = 'none';
       pointer.style.transform = `translate(-50%, -50%) rotate(${lastRotation}deg)`;
       setTimeout(() => {
